@@ -62,8 +62,8 @@ export function useTimer(config: TimerConfig) {
   };
 
   const playCompletionSound = () => {
-    // const audio = new Audio('src/assets/sounds/sound_2.wav');
-    const audio = new Audio('src/assets/sounds/sound_1.flac');
+    const audio = new Audio('src/assets/sounds/sound_2.wav');
+    // const audio = new Audio('src/assets/sounds/sound_1.flac');
     audio.play();
     console.log('Timer completed! Playing sound...');
   };
