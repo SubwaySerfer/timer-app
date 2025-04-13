@@ -1,5 +1,6 @@
-import { ref, computed, onUnmounted } from 'vue';
+import { ref, computed, onUnmounted, watch } from 'vue';
 import type { TimerConfig, TimerState } from '../types/timer';
+import sound from '../assets/sounds/sound_2.wav';
 
 export function useTimer(config: TimerConfig) {
   const { initialDuration } = config;
@@ -22,7 +23,7 @@ export function useTimer(config: TimerConfig) {
   });
 
   const start = () => {
-    console.log('start!')
+    console.log('start!');
     if (state.value.isRunning || state.value.isCompleted) return;
 
     state.value.isRunning = true;
@@ -62,12 +63,15 @@ export function useTimer(config: TimerConfig) {
   };
 
   const playCompletionSound = () => {
-    const audio = new Audio('src/assets/sounds/sound_2.wav');
+    const audio = new Audio(sound);
     // const audio = new Audio('src/assets/sounds/sound_1.flac');
     audio.play();
     console.log('Timer completed! Playing sound...');
   };
 
+  watch([() => state.value.isRunning, formattedTime], ([isRunning, newVal]) => {
+    document.title = isRunning ? `${newVal}` : 'Timer App';
+  });
 
   // Очистка интервала при unmount компонента
   onUnmounted(() => {
